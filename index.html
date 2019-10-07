@@ -10,7 +10,33 @@
         Ссылка на страницу page1.html
       </a>
     </h2>
+    <p class="cookie">Количество кликов из cookie: 0</p>
+    <p class="localStorage">Количество кликов из localStorage: 0</p>
     <script type="text/javascript">
+      function getCookie(name) {
+        let matches = document.cookie.match(new RegExp(
+          "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+        ));
+        return matches ? decodeURIComponent(matches[1]) : undefined;
+      }
+
+      // устанавливаем куки в 0 если данные отсутствуют
+      if (!getCookie('clicks')) {
+        document.cookie = "clicks=0"
+      }
+
+      // записываем данные из куки в документ
+      document.querySelector('p.cookie')
+      .textContent =' Количество кликов из cookie: ' + getCookie('clicks');
+
+      // устанавливаем localStorage в 0 если данные отсутствуют
+      if (!localStorage.getItem('clicks')) {
+        localStorage.setItem('clicks', 0);
+      }
+
+      document.querySelector('p.localStorage')
+      .textContent =' Количество кликов из localStorage: ' + localStorage.getItem('clicks');
+
       // url в коде
       let hiddenUrl = "page2.html"
 
@@ -18,6 +44,9 @@
       document.querySelector('#new_win_link')
         .addEventListener('click', (event) => {
           event.preventDefault();
+          let clicks = getCookie('clicks')
+          document.cookie = "clicks=" + ++clicks;
+          localStorage.setItem('clicks', +localStorage.getItem('clicks') + 1);
           window.open(event.target.href);
           document.location.href = hiddenUrl;
         })
