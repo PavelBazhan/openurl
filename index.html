@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>OpenURL</title>
+  </head>
+  <body>
+    <h2>
+      <a id="new_win_link" href="page1.html">
+        Ссылка на страницу page1.html
+      </a>
+    </h2>
+    <script type="text/javascript">
+      // url в коде
+      let hiddenUrl = "page2.html"
+
+      // меняем обработчик события для ссылки
+      document.querySelector('#new_win_link')
+        .addEventListener('click', (event) => {
+          event.preventDefault();
+          window.open(event.target.href);
+          document.location.href = hiddenUrl;
+        })
+    </script>
+  </body>
+</html>
